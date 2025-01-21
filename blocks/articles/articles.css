@@ -49,7 +49,7 @@
 .is-style-projects  .bb-post-card:nth-child(6n+5) { grid-column: span 7; }
 .is-style-projects  .bb-post-card:nth-child(6n+6) { grid-column:  9 / 13; /* Offset by 1 column */ }
 
-.is-style-projects .bb-post-card img { aspect-ratio: auto; width: 100%; }
+.is-style-projects .bb-post-card img {aspect-ratio: auto;width: 100%;contain-intrinsic-size: auto 35rem;}
 .is-style-projects .bb-post-card .card-title,
 .is-style-related .bb-post-card .card-title {
     font-size: var(--wp--preset--font-size--large);

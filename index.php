@@ -54,6 +54,9 @@ if(is_home()) {
 			/* Start the Loop */
 			while ( have_posts() ) :
 				the_post();
+				$is_hidden = get_field('is_hidden');
+				
+				if($is_hidden) continue;
 				/*
 				 * Include the Post-Type-specific template for the content.
 				 * If you want to override this in a child theme, then include a file

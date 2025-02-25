@@ -123,7 +123,11 @@ endif;
  * @return string The content with the TOC added.
  */
 function generate_toc_and_save_to_meta($content) {
-    global $post;
+	global $post;
+	
+    if (!is_singular('post') || is_admin() || in_the_loop() === false) {
+        return $content;
+    }
 
     // Ensure that headings are properly matched and attributes are preserved
 	// Only gets h2 and h3 headings

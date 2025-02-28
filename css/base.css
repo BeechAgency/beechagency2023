@@ -459,6 +459,13 @@ i.dot.pink { background-color:  var(--wp--preset--color--pink); }
 
     --card-cols : 3;
 }
+.archive-page-articles::before {
+    content: '';
+    display: block;
+    grid-column: span var( --xy-grid-cols );
+    border-top: solid 1px var(--wp--preset--color--mid-gray);
+}
+
 .archive-page-articles .bb-card.type-post {
     grid-column: span var( --card-cols );
 }

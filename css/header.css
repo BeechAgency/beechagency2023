@@ -17,6 +17,7 @@
 .site-header .menu {
     display: flex;
     gap: 1.5rem;
+    align-items: center;
 }
 
 .site-header .nav-wrap {
@@ -90,4 +91,25 @@ label.toggle-item {
 #page.site:has(header.wp-block-beech-epic-header) header.site-header {
     color: var(--wp--preset--color--white);
     background-color: var(--wp--preset--color--off-black);
+}
+
+.menu-item.btn a {
+    border: solid 1px currentColor;
+    border-radius: 3rem;
+    padding: 0.25rem 0.75rem 0.25rem;
+    display: block;
+
+    overflow: hidden;
+
+    
+}
+.menu-item.btn a:hover {
+    background-color: color-mix(in srgb, var(--body-bg), 80% transparent);
+}
+.menu-item.btn a::after {
+    top: 0;
+    height: 100%;
+    z-index: -1;
+    animation-direction: alternate-reverse;
+    animation-duration: 3s;
 }

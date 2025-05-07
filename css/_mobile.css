@@ -77,4 +77,13 @@
   .site-footer {
     min-height: calc(100vh + 3rem);
   }
+
+  .menu-header-menu-container .menu-item.btn {
+    margin-top: auto;
+  }
+  .menu-header-menu-container .menu-item.btn a {
+    width: 100%;
+    padding-inline: 1rem;
+    justify-content: center;
+  }
 }

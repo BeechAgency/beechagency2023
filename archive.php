@@ -37,7 +37,7 @@ get_header();
 			echo '<div class="filter-list-wrapper">';
 			beech_taxonomy_value_filter_list($tax, $path);
 			echo '</div>';
-			echo '<div class="archive-page-articles" data-xy="grid">';
+			echo '<div class="archive-page-articles '.get_post_type().'" data-xy="grid">';
 			/* Start the Loop */
 			while ( have_posts() ) :
 				the_post();

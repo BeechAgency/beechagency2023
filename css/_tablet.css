@@ -18,11 +18,12 @@
    .archive-page-articles {
       --card-cols: 4;
    }
+   /*
    .filter-list-inner .title {  padding: calc(0.5rem + 2px) 0rem; }
    .filter-list {
       flex-wrap: wrap;
    }
-   .filter-list .item a { padding: 0.5rem 2rem; }
+   .filter-list .item a { padding: 0.5rem 2rem; }*/
 
    /* Posts Pages */
 
@@ -118,4 +119,16 @@
       padding: 1rem 4rem 1.25rem;
       margin: 2rem 0 0;
    }
+
+   .filter-list-wrapper {
+
+      max-width: 100%;
+   }
+   .filter-list-inner {
+      overflow-x: scroll;
+      max-width: 100%;
+   }  
+   .filter-list { width: auto; padding-right: var(--gutter); }
+   .filter-list .item,
+   .filter-list .item a { width: max-content; }
 }

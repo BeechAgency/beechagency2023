@@ -136,7 +136,7 @@ function beech_taxonomy_value_filter_list($taxonomy = 'product', $posts_page_url
 
 	if (!empty($terms)) {
 		echo "<div class='filter-list-inner tax-$taxonomy'>";
-		echo "<div class='title'>Filter:</div><ul class='filter-list tax-$taxonomy'>";
+		echo "<div class='title sr-only'>Filter:</div><ul class='filter-list tax-$taxonomy'>";
 		echo "<li class='item item-all'><a href='$posts_page_url' data-term=''>All</a></li>";
 		foreach ($terms as $term) {
 			// Count the number of posts for each term
@@ -152,14 +152,14 @@ function beech_taxonomy_value_filter_list($taxonomy = 'product', $posts_page_url
 
 			if($taxonomy === 'product') {
 				$landing_page = get_field('landing_page',$taxonomy."_".$term->term_id);
-				$landing_page_id = $landing_page[0];
+				$landing_page_id = is_countable($landing_page) ? $landing_page[0] : null;
 
 				if(!empty($landing_page_id)):
 					$term_link = get_the_permalink( $landing_page_id );
 				endif;
 			}
 			if($count > 0):
-				echo '<li class="item '.$active_class.'"><a href="' . esc_url($term_link) . '" >' . esc_html($term->name);
+				echo '<li class="item '.$active_class.' '.$term->slug.'"><a href="' . esc_url($term_link) . '" >' . esc_html($term->name);
 				echo '<span class="count">' . $count . '</span></a></li>';
 			endif;
 		}

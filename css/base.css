@@ -459,12 +459,18 @@ i.dot.pink { background-color:  var(--wp--preset--color--pink); }
 
     --card-cols : 3;
 }
+.filter-list-wrapper + .archive-page-articles {
+    padding-top: 3rem;
+}
+.filter-list-wrapper + .archive-page-articles.project { padding-top: 6rem;}
+/*
 .archive-page-articles::before {
     content: '';
     display: block;
     grid-column: span var( --xy-grid-cols );
-    border-top: solid 1px var(--wp--preset--color--mid-gray);
+    border-top: solid 0px var(--wp--preset--color--mid-gray);
 }
+*/
 
 .archive-page-articles .bb-card.type-post {
     grid-column: span var( --card-cols );
@@ -517,13 +523,14 @@ posts filter
     align-items: flex-start;
     width: 100%;
     padding-top: 4rem;
-    padding-bottom: 1.5rem;
-    border-bottom: solid 1px var(--wp--preset--color--mid-gray);
+    padding-bottom: 0;
+    
     gap: 1rem;
 }
 .filter-list-inner .title {
     /* font-weight: bold; */
     padding: calc(1rem + 2px) 0rem;
+    display: none;
 }
 .filter-list {
     margin: 0;
@@ -531,44 +538,52 @@ posts filter
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1.5rem;
     width: 100%;
+    border-bottom: solid 1px color-mix(in srgb, var(--wp--preset--color--mid-gray), transparent 50%);
 }
 .filter-list .item { display: block; }
 .filter-list .item a {
     text-decoration: none;
     color: inherit;
-    padding: 1.5rem 2.65rem 1.55rem;
-    border: solid 1px currentColor;
-    border-radius: 3rem;
+    padding: 0;
+    border: none;
+    border-radius: 0;
     display: block;
     transition: all 150ms ease;
     position: relative;
     line-height: 1;
+    padding-bottom:  1.25rem;
+    border-bottom: solid 2px transparent;
 }
+.filter-list .item.uncategorized { display: none; }
 .filter-list .item a:hover {
-    background-color: var(--wp--preset--color--pink);
+    color: var(--wp--preset--color--pink);
     border-color: var(--wp--preset--color--pink);
+    opacity: 1 !important;
 }
+.filter-list:has( a:hover) .item a { opacity: 0.7; }
+
 .filter-list .item:nth-child(5n+1) a:hover { 
-    background-color: var(--wp--preset--color--rorange);
+    color: var(--wp--preset--color--rorange);
     border-color: var(--wp--preset--color--rorange); }
 .filter-list .item:nth-child(5n+2) a:hover { 
-    background-color: var(--wp--preset--color--yellow);
+    color: var(--wp--preset--color--yellow);
     border-color: var(--wp--preset--color--yellow); }
 .filter-list .item:nth-child(5n+3) a:hover { 
-    background-color: var(--wp--preset--color--pink);
+    color: var(--wp--preset--color--pink);
     border-color: var(--wp--preset--color--pink); }
 .filter-list .item:nth-child(5n+4) a:hover { 
-    background-color: var(--wp--preset--color--green);
+    color: var(--wp--preset--color--green);
     border-color: var(--wp--preset--color--green); }
 .filter-list .item:nth-child(5n+5) a:hover { 
-    background-color: var(--wp--preset--color--blue);
+    color: var(--wp--preset--color--blue);
     border-color: var(--wp--preset--color--blue); }
 
 .filter-list .item.active a {
-    color: var(--body-bg);
-    background-color: var(--body-text);
+    border-bottom: solid 2px var(--body-text);
+    /*color: var(--body-bg);
+    background-color: var(--body-text);*/
 }
 
 
@@ -580,7 +595,9 @@ posts filter
     position: absolute;
     margin-top: -0.15rem;
 }
-
+.filter-list:not(:has(li.active)) li:first-child a {
+    border-bottom: solid 2px var(--body-text);
+}
 
 /* Animated Logo */
 #beechLogo path.logo-letter {

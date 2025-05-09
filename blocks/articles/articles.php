@@ -92,39 +92,41 @@ $post_count = $post_count === 0 ? 3 : $post_count;
             className="articles__inner-blocks"
         />
     </div>
-    <?php if(!empty($display_filters) && $display_filters === true):  
+    <div class="content-list">
+        <?php if(!empty($display_filters) && $display_filters === true):  
 
-        beech_taxonomy_value_filter_list( $filter_tax , get_the_permalink( $page_id ) );
-     endif; ?>
-    <div class="articles-track">
-        <div class="articles-wrapper <?= !empty($post_type) ? $post_type[0] : ''; ?>" style="--article-count: <?= $post_count; ?>;">
-            <?php 
-            $paginationOutput = null;
-            foreach( $post_ids as $id ):
-                if(!is_numeric($id)) {
-                    $paginationOutput = $id;
-                } else {
-                    get_template_part( 'template-parts/card', 'post', array('ID' => $id) );
-                }
-            endforeach;
-            ?>
-        </div><!-- // .articles-wrapper -->
-    </div><!-- // .articles-track -->
-    <?php if($paginationOutput) { echo $paginationOutput; } ?>
-    <?php if(!empty($link) && $link['url']): ?>
-    <div class="article-footer">
-        <a class="bb-btn read-more" href="<?= $link['url']; ?>" target="<?= $link['target'] ?>">
-            <?= $link['title'] ?>
-            <?php 
-            if($display_count):
-                $post_count = wp_count_posts(!empty($post_type) ? $post_type[0] : 'post');
+            beech_taxonomy_value_filter_list( $filter_tax , get_the_permalink( $page_id ) );
+        endif; ?>
+        <div class="articles-track">
+            <div class="articles-wrapper list-output <?= !empty($post_type) ? $post_type[0] : ''; ?>" style="--article-count: <?= $post_count; ?>;">
+                <?php 
+                $paginationOutput = null;
+                foreach( $post_ids as $id ):
+                    if(!is_numeric($id)) {
+                        $paginationOutput = $id;
+                    } else {
+                        get_template_part( 'template-parts/card', 'post', array('ID' => $id) );
+                    }
+                endforeach;
+                ?>
+            </div><!-- // .articles-wrapper -->
+        </div><!-- // .articles-track -->
+        <?php if($paginationOutput) { echo $paginationOutput; } ?>
+        <?php if(!empty($link) && $link['url']): ?>
+        <div class="article-footer">
+            <a class="bb-btn read-more" href="<?= $link['url']; ?>" target="<?= $link['target'] ?>">
+                <?= $link['title'] ?>
+                <?php 
+                if($display_count):
+                    $post_count = wp_count_posts(!empty($post_type) ? $post_type[0] : 'post');
 
-                echo '<span class="count">';
-                echo $post_count->publish;
-                echo '</span>';
-            endif;
-            ?>
-        </a>
-    </div>
+                    echo '<span class="count">';
+                    echo $post_count->publish;
+                    echo '</span>';
+                endif;
+                ?>
+            </a>
+        </div>
     <?php endif; ?>
+    </div>
 </div>

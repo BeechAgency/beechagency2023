@@ -137,7 +137,7 @@ function beech_taxonomy_value_filter_list($taxonomy = 'product', $posts_page_url
 	if (!empty($terms)) {
 		echo "<div class='filter-list-inner tax-$taxonomy'>";
 		echo "<div class='title sr-only'>Filter:</div><ul class='filter-list tax-$taxonomy' data-taxonomy='".$taxonomy."' data-post-type='".$post_type."'>";
-		echo "<li class='item item-all'><a href='$posts_page_url' data-term=''>All</a></li>";
+		echo "<li class='item item-all'><a href='$posts_page_url' data-term-id='' data-taxonomy='".esc_attr($taxonomy)."' data-post-type='".$post_type."'>All</a></li>";
 		foreach ($terms as $term) {
 			// Count the number of posts for each term
 			$term_post_count = $term->count;
@@ -187,16 +187,28 @@ function load_category_posts() {
 
 	$taxonomy  = sanitize_text_field($_POST['taxonomy'] ?? '');
     $term_id = absint($_POST['term_id'] ?? 0);
+	$post_type = sanitize_text_field($_POST['post_type'] ?? '');
 
-    $query = new WP_Query([
-        'tax_query' => [[
+	$tax_query = [
             'taxonomy' => $taxonomy,
             'field'    => 'term_id',
             'terms'    => $term_id,
-        ]],
+    ];
+
+	$query_args = [
         'posts_per_page' => get_option('posts_per_page'),
         'post_status'    => 'publish',
-    ]);
+	];
+
+	if(!empty($term_id)) {
+		$query_args['tax_query'] = [$tax_query];
+	}
+
+	if($taxonomy === 'product') {
+		$query_args['post_type'] = 'project';
+	}
+
+	$query = new WP_Query($query_args);
 
     if ($query->have_posts()) {
         ob_start();

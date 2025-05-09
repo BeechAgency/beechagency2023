@@ -172,8 +172,6 @@ function createCursorFollower() {
 					`a[href="#${id}"]`
 				); //document.querySelector(`#toc-item-${id}`);
 
-
-
 				if (entry.isIntersecting) {
 					//console.log('INTERESECTING!', id, tocLink);
 
@@ -320,20 +318,22 @@ class CategoryFilter {
 				console.log(button.dataset);
                 const termId = button.dataset.termId;
 				const taxonomy = button.dataset.taxonomy;
+				const postType = button.dataset.postType;
 
 				console.log(termId, taxonomy);
 
-                this.loadPosts(termId, taxonomy);
+                this.loadPosts(termId, taxonomy, postType);
             });
         });
     }
 
-    loadPosts(termId, taxonomy = 'category') {
+    loadPosts(termId, taxonomy = 'category', postType = 'post') {
         const formData = new FormData();
         formData.append('action', 'load_category_posts');
         formData.append('nonce', ajaxParams.nonce);
         formData.append('term_id', termId);
 		formData.append('taxonomy', taxonomy);
+		formData.append('post_type', postType);
 
 		this.setMinHeight();
 

@@ -118,7 +118,7 @@ endif;
 
 
 
-function beech_taxonomy_value_filter_list($taxonomy = 'product', $posts_page_url = '/') {
+function beech_taxonomy_value_filter_list($taxonomy = 'product', $posts_page_url = '/', $post_type = 'post') {
 
 	//var_dump(is_tax() || is_category());
 	$queried_object = get_queried_object();
@@ -136,7 +136,7 @@ function beech_taxonomy_value_filter_list($taxonomy = 'product', $posts_page_url
 
 	if (!empty($terms)) {
 		echo "<div class='filter-list-inner tax-$taxonomy'>";
-		echo "<div class='title sr-only'>Filter:</div><ul class='filter-list tax-$taxonomy'>";
+		echo "<div class='title sr-only'>Filter:</div><ul class='filter-list tax-$taxonomy' data-taxonomy='".$taxonomy."' data-post-type='".$post_type."'>";
 		echo "<li class='item item-all'><a href='$posts_page_url' data-term=''>All</a></li>";
 		foreach ($terms as $term) {
 			// Count the number of posts for each term
@@ -159,7 +159,7 @@ function beech_taxonomy_value_filter_list($taxonomy = 'product', $posts_page_url
 				endif;
 			}
 			if($count > 0):
-				echo '<li class="item '.$active_class.' '.$term->slug.'"><a href="' . esc_url($term_link) . '" >' . esc_html($term->name);
+				echo '<li class="item '.$active_class.' '.$term->slug.'"><a href="' . esc_url($term_link) . '"data-taxonomy="' . esc_attr($taxonomy) . '" data-term-id="' . esc_attr($term->term_id) . '" >' . esc_html($term->name);
 				echo '<span class="count">' . $count . '</span></a></li>';
 			endif;
 		}
@@ -175,3 +175,45 @@ function beech_image_filter_threshold() {
 
 add_filter( 'big_image_size_threshold', 'beech_image_filter_threshold' );
 
+
+/*
+* Load category posts
+*/
+add_action('wp_ajax_load_category_posts', 'load_category_posts');
+add_action('wp_ajax_nopriv_load_category_posts', 'load_category_posts');
+
+function load_category_posts() {
+    check_ajax_referer('load_posts_nonce', 'nonce');
+
+	$taxonomy  = sanitize_text_field($_POST['taxonomy'] ?? '');
+    $term_id = absint($_POST['term_id'] ?? 0);
+
+    $query = new WP_Query([
+        'tax_query' => [[
+            'taxonomy' => $taxonomy,
+            'field'    => 'term_id',
+            'terms'    => $term_id,
+        ]],
+        'posts_per_page' => get_option('posts_per_page'),
+        'post_status'    => 'publish',
+    ]);
+
+    if ($query->have_posts()) {
+        ob_start();
+		$i = 0;
+        while ($query->have_posts()) {
+            $query->the_post();
+
+			$is_hidden = get_field('is_hidden');
+			
+			if($is_hidden) continue;
+
+            echo get_template_part( 'template-parts/card', 'post', array('index' => $i) );
+			$i++;
+        }
+        wp_reset_postdata();
+        wp_send_json_success(ob_get_clean());
+    } else {
+        wp_send_json_error('No posts found.');
+    }
+}

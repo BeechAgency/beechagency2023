@@ -33,12 +33,13 @@ get_header();
 				$path = '/work';
 			}
 
-
+			echo '<div class="content-list">';
 			echo '<div class="filter-list-wrapper">';
 			beech_taxonomy_value_filter_list($tax, $path);
 			echo '</div>';
-			echo '<div class="archive-page-articles '.get_post_type().'" data-xy="grid">';
+			echo '<div class="archive-page-articles '.get_post_type().' list-output" data-xy="grid">';
 			/* Start the Loop */
+			$i = 0;
 			while ( have_posts() ) :
 				the_post();
 
@@ -48,14 +49,14 @@ get_header();
 				 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
 				 */
 				//echo '<li data-xy="col 2xl:3 xl:3 lg:4 md:4 sm:6 xs:12">';
-				get_template_part( 'template-parts/card', 'post' );
+				get_template_part( 'template-parts/card', 'post', array('index' => $i, 'post_type' => get_post_type()) );
 				//echo '</li>';
-
+				$i++;
 			endwhile;
 			echo '</div>';
 
 			beech_number_pagination();
-
+			echo '</div>';
 		else :
 
 			get_template_part( 'template-parts/content', 'none' );

@@ -15,7 +15,6 @@ if ( ! defined( '_S_VERSION' ) ) {
 }
 
 
-
 /**
  * Sets up theme defaults and registers support for various WordPress features.
  *
@@ -191,7 +190,13 @@ function beechblocks_scripts() {
 	wp_enqueue_script( 'lozad', get_template_directory_uri() . '/js/vendor/lozad.min.js', [] );
 	wp_enqueue_script( 'splitting', get_template_directory_uri() . '/js/vendor/splitting.min.js', [] );
 	wp_enqueue_script( 'simpleParallax', get_template_directory_uri() . '/js/vendor/simpleParallax.min.js', [] );
-	wp_enqueue_script( 'sugar', get_template_directory_uri() . '/js/sugar.js?v=', ['splitting', 'simpleParallax'], _S_VERSION, true );
+	wp_enqueue_script( 'locomotiveScroll', get_template_directory_uri() . '/js/vendor/locomotive-scroll.min.js', [] );
+	wp_enqueue_script( 'sugar', get_template_directory_uri() . '/js/sugar.js?v=', ['splitting', 'simpleParallax', 'locomotiveScroll'], _S_VERSION, true );
+
+	 wp_localize_script('beechblocks-navigation', 'ajaxParams', [
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('load_posts_nonce'),
+    ]);
 }
 add_action( 'wp_enqueue_scripts', 'beechblocks_scripts' );
 

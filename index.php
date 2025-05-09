@@ -38,20 +38,17 @@ if(is_home()) {
 
 
 		if ( have_posts() ) :
+			echo '<div class="content-list">';
 			echo '<div class="filter-list-wrapper">';
 			beech_taxonomy_value_filter_list('category', '/latest');
 			echo '</div>';
-			echo '<div class="archive-page-articles" data-xy="grid">';
+			echo '<div class="archive-page-articles list-output" data-xy="grid" data-scroll>';
 
 			if ( is_home() && ! is_front_page() ) :
-				?><!--
-				<header>
-					<h1 class="page-title screen-reader-text"><?= get_the_title($page_id); ?></h1>
-				</header>-->
-				<?php
 			endif;
 
 			/* Start the Loop */
+			$index = 0;
 			while ( have_posts() ) :
 				the_post();
 				$is_hidden = get_field('is_hidden');
@@ -63,14 +60,14 @@ if(is_home()) {
 				 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
 				 */
 				//echo '<li data-xy="col 2xl:3 xl:3 lg:4 md:4 sm:6 xs:12">';
-				get_template_part( 'template-parts/card', get_post_type() );
+				get_template_part( 'template-parts/card', get_post_type(), array('index' => $index) );
 				//echo '</li>';
-
+				$index++;
 			endwhile;
 			echo '</div>';
 
 			beech_number_pagination();
-
+			echo '</div>';
 		else :
 
 			get_template_part( 'template-parts/content', 'none' );

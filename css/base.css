@@ -44,6 +44,10 @@ body.dark-mode span.edit-link a {box-shadow: 0px 0px 30px -10px rgb(255 255 255)
 
 :where( .entry-content > div ) { margin-top: -1px; }
 
+/** Lenis**/
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}.lenis.lenis-stopped{overflow:hidden}.lenis.lenis-smooth iframe{pointer-events:none}
+
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: var(--wp--preset--color--off-black);
@@ -353,6 +357,8 @@ i.dot.pink { background-color:  var(--wp--preset--color--pink); }
     flex-direction: column;
     position: relative;
     transition: filter 150ms ease;
+
+    opacity: 0;
 }
 .bb-post-card::after {
     content: '';
@@ -364,6 +370,47 @@ i.dot.pink { background-color:  var(--wp--preset--color--pink); }
     height: 1px;
     background-color: currentColor;
     transition: all 250ms ease;
+}
+.bb-post-card {
+    animation-name: slideInTranslate;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1; 
+    --_delay-increment : 100ms;
+    animation-delay: calc(var(--_card-index) * var(--_delay-increment));
+}
+
+.clearing .bb-post-card {
+    animation-name: slideOutTranslate;
+    animation-duration: 200ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1; 
+    --_delay-increment : 0ms;
+    animation-delay: calc(var(--_card-index) * var(--_delay-increment));
+}
+
+@keyframes slideInTranslate {
+    0% {
+        translate: 0rem 2rem;
+        opacity: 0;
+    }
+    100% {
+        translate: 0rem 0rem;
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutTranslate {
+    0% {
+        translate: 0rem 0rem;
+        opacity: 1;
+    }
+    100% {
+        translate: 0rem -1rem;
+        opacity: 0;
+    }
 }
 /*
 .articles-wrapper .bb-post-card:hover {
@@ -560,6 +607,7 @@ posts filter
 .filter-list .item a:hover {
     color: var(--wp--preset--color--pink);
     border-color: var(--wp--preset--color--pink);
+    /*border-bottom-color: transparent !important;*/
     opacity: 1 !important;
 }
 .filter-list:has( a:hover) .item a { opacity: 0.7; }

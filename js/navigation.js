@@ -48,10 +48,12 @@ function toggleDarkMode() {
 }
 
 // Handle Dark mode
+const lozadObserver = lozad(); // lazy loads elements with default selector as '.lozad'
+
 // Check the initial user preference
 document.addEventListener('DOMContentLoaded', (e) => {
-	const observer = lozad(); // lazy loads elements with default selector as '.lozad'
-  	observer.observe();
+	
+  	lozadObserver.observe();
 })
 
 
@@ -286,3 +288,105 @@ function count(element) {
 
     increment();
 }
+
+
+/** Ajax Post List */
+class CategoryFilter {
+    constructor(buttonSelector, resultContainerSelector) {
+		this.container = document.querySelectorAll('.content-list').length > 0 ? document.querySelectorAll('.content-list')[0] : null;
+		
+		this.init();
+    }
+
+	init() {
+		if(!this.container) return false;
+
+		this.buttons = this.container.querySelectorAll('.filter-list a');
+        this.resultContainer = this.container.querySelector('.list-output');
+
+		if(!this.buttons || !this.resultContainer) return false;
+
+		this.bindEvents();
+	}
+
+    bindEvents() {
+        this.buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+
+				this.deactivateButtons();
+				button.parentElement.classList.add('active');
+
+				console.log(button.dataset);
+                const termId = button.dataset.termId;
+				const taxonomy = button.dataset.taxonomy;
+
+				console.log(termId, taxonomy);
+
+                this.loadPosts(termId, taxonomy);
+            });
+        });
+    }
+
+    loadPosts(termId, taxonomy = 'category') {
+        const formData = new FormData();
+        formData.append('action', 'load_category_posts');
+        formData.append('nonce', ajaxParams.nonce);
+        formData.append('term_id', termId);
+		formData.append('taxonomy', taxonomy);
+
+		this.setMinHeight();
+
+		this.resultContainer.classList.add('clearing');
+		
+		setTimeout(() => {
+			this.resultContainer.innerHTML = '';	
+			this.resultContainer.classList.remove('clearing');
+
+			fetch(ajaxParams.ajax_url, {
+				method: 'POST',
+				body: formData
+			})
+			.then(res => res.json())
+			.then(data => {
+				if (data.success) {
+					this.resultContainer.innerHTML = data.data;
+
+					lozadObserver.observe();
+
+				} else {
+					this.resultContainer.innerHTML = `<p>${data.data}</p>`;
+				}
+			})
+			.catch(err => {
+				this.resultContainer.innerHTML = `<p>Error loading posts.</p>`;
+				console.error(err);
+			});
+
+
+
+		}, 210);
+		
+
+		//console.log(formData);
+
+        
+    }
+
+	deactivateButtons() {
+		this.buttons.forEach(button => {
+			button.parentElement.classList.remove('active');
+		});
+	}
+
+	setMinHeight() {
+		const minHeight = this.resultContainer.firstChild.offsetHeight;
+		console.log('Min Heiught',minHeight, this.resultContainer, this.resultContainer.firstChild);
+
+		this.resultContainer.style.minHeight = `${minHeight}px`;
+	}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new CategoryFilter('.category-button', '#ajax-post-container');
+});

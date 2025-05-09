@@ -1,6 +1,7 @@
 <?php
     //var_dump($args);
     $id = $args['ID'] ?? get_the_ID();
+    $card_index = $args['index'] ?? null;
 
     $post_categories = get_the_category($id); // Get the post categories
 
@@ -32,7 +33,7 @@
         $video_url = get_field('featured_video', $id);
     }
 ?>
-<div class="bb-card bb-post-card type-<?= $post_type ?>" data-post-id="<?= $id ?>">
+<div class="bb-card bb-post-card type-<?= $post_type ?>" data-post-id="<?= $id ?>" <?= $card_index !== null ? 'style="--_card-index: '.$card_index.';"' : ''; ?> >
     <?php if($post_type === 'project' && !empty($video_url)): ?>
     <a href="<?= get_the_permalink( $id ); ?>" title="<?= get_the_title($id); ?>" class="card-video-wrapper">
         <video width="100%" height="auto" playsinline="" loop="" muted="" autoplay="" class="bb-post-card-video lozad" data-placeholder-background="hsla(0, 0.00%, 0.00%, 1.00)" data-loaded="false">

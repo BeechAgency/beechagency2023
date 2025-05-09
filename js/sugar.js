@@ -1,3 +1,15 @@
+(function () {
+  const locomotiveScroll = new LocomotiveScroll(
+    {
+      lenisOptions : {
+        lerp: 0.1,
+        wheelMultiplier: 0.72
+      }
+    }
+  );
+})();
+
+
 document.addEventListener("DOMContentLoaded", () => {
   
   Splitting({

@@ -343,6 +343,8 @@ class CategoryFilter {
 			this.resultContainer.innerHTML = '';	
 			this.resultContainer.classList.remove('clearing');
 
+			
+
 			fetch(ajaxParams.ajax_url, {
 				method: 'POST',
 				body: formData
@@ -380,10 +382,12 @@ class CategoryFilter {
 	}
 
 	setMinHeight() {
-		const minHeight = this.resultContainer.firstChild.offsetHeight;
-		console.log('Min Heiught',minHeight, this.resultContainer, this.resultContainer.firstChild);
+		const firstCard = this.resultContainer.querySelector('.bb-card');
+		const minHeight = firstCard.offsetHeight;
+		
+		console.log('Min Heiught',minHeight, this.resultContainer, firstCard);
 
-		this.resultContainer.style.minHeight = `${minHeight}px`;
+		this.resultContainer.style.minHeight = `${minHeight * 1.5}px`;
 	}
 }
 

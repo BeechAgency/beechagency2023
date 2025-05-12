@@ -387,7 +387,7 @@ class CategoryFilter {
 		
 		console.log('Min Heiught',minHeight, this.resultContainer, firstCard);
 
-		this.resultContainer.style.minHeight = `${minHeight * 1.5}px`;
+		this.resultContainer.style.minHeight = `${minHeight}px`;
 	}
 }
 

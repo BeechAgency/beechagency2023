@@ -955,3 +955,7 @@ html:has( .toc ) {
 #copy-toast.out {
     opacity: 0;
 }
+
+.single-post .wp-block-beech-article-text figure.wp-block-image.size-full.aligncenter {
+    margin-left: auto;
+}

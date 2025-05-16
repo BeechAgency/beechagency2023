@@ -21,3 +21,26 @@ body.metal {
     font-size: 34px;
 }
 body.metal h1.header__marquee-text { font-size: 16vw; }
+
+
+/* Example to drop in metal.css */
+.metal-bolt {
+	animation: boltFlash 0.3s ease-in-out infinite alternate;   
+    color: var(--wp--preset--color--yellow);
+}
+
+.metal-bolt svg { 
+    width: 5rem; 
+    height: 5rem; 
+}
+
+@keyframes boltFlash {
+	from {
+		opacity: 1;
+		transform: rotate(0deg) scale(1);
+	}
+	to {
+		opacity: 0.3;
+		transform: rotate(10deg) scale(1.2);
+	}
+}

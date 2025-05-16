@@ -250,26 +250,6 @@ function createCursorFollower() {
 			body.classList.remove('menu-transition');
 		}, 500)
 	})
-
-	let theWord = '';
-
-	document.addEventListener('keydown', function(event) {
-		const wordToMatch = 'metal';
-	  
-		if ( wordToMatch.includes(event.key) ) {
-		  // Check if the key matches the first letter of 'metal'
-
-		  theWord += event.key;
-
-		  if ( theWord === wordToMatch ) {
-			  console.log('The word "metal" has been typed.');
-			  body.classList.toggle('metal');
-			  AnalyticsHandler('easter_egg', { easter_egg : 'Metal Mode Enabled' });
-		  }
-		} else {
-			theWord = '';
-		}
-	  });
 }() );
 
 function count(element) {
@@ -394,3 +374,143 @@ class CategoryFilter {
 document.addEventListener('DOMContentLoaded', () => {
     new CategoryFilter('.category-button', '#ajax-post-container');
 });
+
+
+class MetalMode {
+
+	constructor() {
+		this.boltSVG = '<svg version="1.1" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" stroke="currentColor" d="m417.05 12.188h520.5c15.234 0 27.562 12.328 27.562 27.562 0 5.25-1.4531 10.172-4.0781 14.391l-181.03 368.58h201.47c15.234 0 27.562 12.328 27.562 27.562 0 8.1562-3.5156 15.469-9.1406 20.531l-682.18 708.61c-10.547 10.922-27.938 11.25-38.859 0.75-7.6875-7.3594-10.125-18.094-7.3125-27.656l132.52-444.84-178.55 47.859c-14.672 3.9375-29.766-4.7812-33.703-19.453-1.5469-5.8125-1.125-11.625 0.84375-16.828l197.95-687c3.4688-12.047 14.438-19.922 26.391-20.016z" fill-rule="evenodd"/></svg>';
+		this.body = document.body;
+		this.imageArray = [
+			{ name: 'josh-chel-work', path: '/wp-content/uploads/2025/05/josh-chel.jpg' },
+			{ name : 'emily_about', path: '/wp-content/uploads/2025/05/potatoOnFireSciFiWarzone.png' },
+			{ name: 'josh', path: '/wp-content/uploads/2025/05/josh-metal.jpg' },
+			{ name: 'lach', path: '/wp-content/uploads/2025/05/lachlan-metal.jpg' },
+			{ name: 'aemon', path: '/wp-content/uploads/2025/05/aemon-metal.png' },
+			{ name: 'sarah', path: '/wp-content/uploads/2025/05/sarah-metal.png' },
+			{ name: 'em_o', path: '/wp-content/uploads/2025/05/em-metal.png' },
+			{ name: 'carol', path: '/wp-content/uploads/2025/05/carol-metal.png' },
+			{ name: 'chelsea', path: '/wp-content/uploads/2025/05/chelsea-metal.jpg' },
+			{ name: 'logo', path: '/wp-content/themes/beechagency2023/assets/bolt.svg' },
+			{ name: 'icon', path: '/wp-content/themes/beechagency2023/assets/bolt.svg' },
+			
+		];
+		this.theWord = '';
+
+		this.init();
+	}
+
+	init() {
+		this.addKeyListener();
+	}
+
+	addKeyListener() {
+		const classThis = this;
+
+		document.addEventListener('keydown', function(event) {
+			const wordToMatch = 'metal';
+
+			console.log('KEYDOWN EVENT', event.key);
+
+			if (wordToMatch.includes(event.key)) {
+				classThis.theWord += event.key;
+
+				if (classThis.theWord === wordToMatch) {
+					console.log('The word "metal" has been typed.');
+					document.body.classList.toggle('metal');
+					AnalyticsHandler('easter_egg', { easter_egg: 'Metal Mode Enabled' });
+
+					classThis.activate();
+				}
+			} else {
+				classThis.theWord = '';
+			}
+		});
+	}
+
+	activate() {
+		this.loadStyles();
+		this.injectBolts();
+		this.replaceImages();
+	}
+
+	loadStyles() {
+		const metalStylesheet = document.createElement('link');
+		metalStylesheet.rel = 'stylesheet';
+		metalStylesheet.href = '/wp-content/themes/beechagency2023/css/metal.css';
+		metalStylesheet.type = 'text/css';
+		metalStylesheet.onload = () => console.log('metal.css loaded!');
+		document.head.appendChild(metalStylesheet);
+	}
+
+	injectBolts() {
+		for (let i = 0; i < 40; i++) {
+			const bolt = document.createElement('div');
+			bolt.innerHTML = this.boltSVG;
+			bolt.classList.add('metal-bolt');
+			bolt.style.position = 'fixed';
+			bolt.style.top = `${Math.random() * 80 + 10}%`;
+			bolt.style.left = `${Math.random() * 80 + 10}%`;
+			bolt.style.pointerEvents = 'none';
+			bolt.style.zIndex = 9999;
+
+			setTimeout(() => {
+				this.body.appendChild(bolt);
+
+				setTimeout(() => {
+					bolt.remove();
+					console.log('BOLT DEATH!');
+				}, 500);
+
+			}, i * 50);	
+		}
+	}
+
+	replaceImages() {
+		const imgs = document.querySelectorAll('img');
+	
+		imgs.forEach(img => {
+			const originalSrc = img.src.toLowerCase();
+			const originalDataSrc = img.dataset.src || '';
+
+			console.log('asd',originalSrc, originalDataSrc, img.dataset);
+
+			let isLQIP = false;
+
+			if(originalSrc.includes('data:image')) {
+				isLQIP = true;
+			}
+
+			const match = this.imageArray.find(item => originalSrc.toLowerCase().includes(item.name.toLowerCase()));
+			const matchData = this.imageArray.find(item => originalDataSrc.toLowerCase().includes(item.name.toLowerCase()));
+
+			let newDataSrc = '';
+			let newSrc = '';
+	
+			if(isLQIP) {
+				console.log(match, matchData);
+				newDataSrc = matchData ? matchData.path : this.imageArray[Math.floor(Math.random() * this.imageArray.length)].path;
+			} else {
+				newSrc = match
+				? match.path
+				: this.imageArray[Math.floor(Math.random() * this.imageArray.length)].path;
+			}
+			
+			//console.log('Image Replace:', isLQIP, img, originalSrc, newSrc)
+	
+			if (!img.hasAttribute('data-original-src')) {
+				img.setAttribute('data-original-src', img.src);
+				if (img.hasAttribute('srcset')) {
+					img.setAttribute('data-original-srcset', img.srcset);
+				}
+			}
+
+			img.setAttribute('data-srcset', '');
+			img.setAttribute('data-src', newDataSrc);
+			img.src = newSrc;
+			img.srcset = '';
+		});
+	}
+}
+
+const metalMaker = new MetalMode();

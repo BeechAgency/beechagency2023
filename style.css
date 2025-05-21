@@ -4,7 +4,7 @@ Theme URI: http:/beech.agency/
 Author: Beech Agency
 Author URI: http:/beech.agency/
 Description: A block theme for Beech Agency
-Version: 3.2.2
+Version: 3.2.3
 Tested up to: 6.5
 Requires PHP: 8.1
 Slug: beechagency2023
@@ -14,13 +14,13 @@ Text Domain: beechagency2023
 Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
 */
 
-@import url('css/xylem.v2.css?v=3.2.1');
-@import url('css/base.css?v=3.2.1');
-@import url('css/header.css?v=3.2.1');
-@import url('css/footer.css?v=3.2.1');
-@import url('css/forms.css?v=3.2.1');
+@import url('css/xylem.v2.css?v=3.2.3');
+@import url('css/base.css?v=3.2.3');
+@import url('css/header.css?v=3.2.3');
+@import url('css/footer.css?v=3.2.3');
+@import url('css/forms.css?v=3.2.3');
 
-@import url('css/_tablet.css?v=3.2.1');
-@import url('css/_mobile.css?v=3.2.1');
+@import url('css/_tablet.css?v=3.2.3');
+@import url('css/_mobile.css?v=3.2.3');
 
-@import url('css/sugar.css?v=3.2.1');
+@import url('css/sugar.css?v=3.2.3');

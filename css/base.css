@@ -959,3 +959,42 @@ html:has( .toc ) {
 .single-post .wp-block-beech-article-text figure.wp-block-image.size-full.aligncenter {
     margin-left: auto;
 }
+
+/** Author Meta **/
+header .author-prose {
+    margin-top: 2rem;
+    max-width: 36rem;
+}
+header .author-profile__image img {
+    max-width: 8rem;
+}
+header .author-profile__text h1 {
+    font-size: var(--wp--preset--font-size--2-xl);
+}
+header .author-profile__text .author-profile__title {
+    font-size: var(--wp--preset--font-size--large);
+}
+header .author-profile__inner {
+    gap: 1.5rem;
+}
+
+.author-social-accounts {
+    display : flex;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+.author-social-accounts a {
+    color: currentColor;
+}
+.author-social-accounts a:hover {
+    color: var(--selection-clr);
+}
+
+.author-social-accounts .icon svg {
+    display: block;
+    max-width: 100%;
+    width: 1.25rem;
+    height: auto;
+    aspect-ratio: 1 / 1;
+}

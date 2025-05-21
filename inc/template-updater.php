@@ -178,13 +178,14 @@ class BeechAgency_Theme_Updater {
 
         $this->log("Theme out of date");
 
+        $git_response = $this->github_response;
+
         $new_files = $this->github_response->zipball_url; // Get the ZIP
 
-        /* Optional: Get the assets instead of the zip. Not required here.
-        if( isset($this->github_response->assets) && count($this->github_response->assets) > 0 ) {
-            $new_files = $this->github_response->assets[0]->browser_download_url;
+        // If there are theme assets attached, use those instead!
+        if( isset($git_response->assets) && is_countable($git_response->assets) && count($git_response->assets) > 0 ) {
+            $new_files = $git_response->assets[0]->browser_download_url;
         }
-        */
 
         $slug = current( explode('/', $this->theme ) ); // Create valid slug
         $this->package_url = $new_files;
@@ -195,7 +196,7 @@ class BeechAgency_Theme_Updater {
 
         $theme = array( // setup our theme info
             'url' => 'https://github.com/'.$this->username.'/'.$this->repository, //$this->themeObject["ThemeURI"],
-            'slug' => 'yolowhatever',
+            'slug' => 'beechagency2023',
             'package' => $new_files,
             'new_version' => $this->github_response->tag_name
         );
@@ -249,7 +250,7 @@ class BeechAgency_Theme_Updater {
 
 
 $updater = new BeechAgency_Theme_Updater( __FILE__ );
-$updater->set_logging(false);
+$updater->set_logging(true);
 $updater->set_username( 'BeechAgency' );
 $updater->set_repository( 'beechagency2023' );
 $updater->set_theme('beechagency2023'); 
